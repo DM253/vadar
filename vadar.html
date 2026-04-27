@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>		
+	<!--link rel="icon" type="img/png" href="img/*.png"-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>VADAR</title>
+		<!-- font -->
+	<style>	
+	@font-face {
+    font-family: "josefin_sansregular";
+    src: url("font/josefinsans-regular-webfont.eot");
+    src: url("font/josefinsans-regular-webfont.eot?#iefix") format("embedded-opentype"),		
+         url("font/josefinsans-regular-webfont.svg#josefin_sansregular") format("svg"),
+         url("font/josefinsans-regular-webfont.woff") format("woff"),
+         url("font/josefinsans-regular-webfont.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+
+}
+	</style>
+	<!-- css basic -->		
+	<style>			
+		body {
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			-moz-user-select: none;
+			font-size:100%;
+			margin:0px;	
+			cursor:default;
+		}
+		
+		img {
+			display:block;
+		}			
+		
+		#noJSImage {
+			width:100%;
+			display:block;
+		}
+		
+		.a {
+			position:absolute;
+		}
+	</style>				
+		<!-- morph	-->
+	<style>
+	.mAlpha {	
+		-webkit-transition:	opacity 500ms linear; 
+		-moz-transition:	opacity 500ms linear; 
+		-ms-transition: 		opacity 500ms linear; 
+		-o-transition: 		opacity 500ms linear; 
+		transition: 			opacity 500ms linear;
+	}
+	
+	.mWidthFast{
+		-webkit-transition:	width 500ms ease-in-out; 
+		-moz-transition:	width 500ms ease-in-out; 
+		-ms-transition: 		width 500ms ease-in-out; 
+		-o-transition: 		width 500ms ease-in-out; 
+		transition: 			width 500ms ease-in-out;
+	}
+	
+	.mLeft {	
+		-webkit-transition:	left 300ms linear; 
+		-moz-transition:	left 300ms linear; 
+		-ms-transition: 		left 300ms linear; 
+		-o-transition: 		left 300ms linear; 
+		transition: 			left 300ms linear;
+	}
+	
+	.mTop {	
+		-webkit-transition:	top 300ms linear; 
+		-moz-transition:	top 300ms linear; 
+		-ms-transition: 		top 300ms linear; 
+		-o-transition: 		top 300ms linear; 
+		transition: 			top 300ms linear;
+	}
+	</style>
+		<!--	main	-->
+	<style>				
+		#mainContainer {
+			display:none;
+			overflow:hidden;
+			min-height:300px;
+			background:#222;
+		}
+		
+		#foutShield {	
+			background:#FFF;
+		}
+		
+		#loadingScreen {
+			background:#FFF;
+		}
+						
+		#logoContainer {
+			text-align:center;
+			background:#666;			
+			overflow:hidden;
+			color:#FFF;
+			font-family: "josefin_sansregular", monospace;
+		}		
+		
+		#barWrapper{
+			width:100%;
+			height:10%;
+			bottom:0px;
+		}
+		
+		.loadBarContainer {
+			height:50%;
+			background:#666;
+			font-family:monospace;
+			color:#FFF;
+			text-align:left;
+		}
+		
+		.loadBar {
+			height:100%;			
+			background:#000;
+			opacity:0.6;
+		}
+		
+		#clickBar {
+			bottom:0px;
+			font-family: "josefin_sansregular", sans-serif;
+			text-align:center;
+			color:#FFF;
+			opacity:0;
+		}
+				
+		#exitScreen {
+			background:#F00;
+			opacity:0;
+		}
+		
+		#credits {
+			background:#FFF;
+			color:#000;
+			opacity:0.6;
+		}
+		
+		#exitButton {
+			right:0px;
+			bottom:50px;
+			width:50px;
+			height:30px;
+			line-height:30px;
+			background:#008AE6;
+			background:#FFF;
+			color:#000;
+			text-align:center;
+			font-family:monospace;
+			opacity:0.8;
+			border-top-left-radius:8px;
+			border-bottom-left-radius:8px;
+			cursor:pointer;
+			z-index:100;
+			opacity:0;
+		}
+		
+		.i100 {
+			width:100%;
+		}
+		
+		.wH100 {
+			width:100%;
+			height:100%;
+		}
+		
+	</style>
+</head>
+<body>				
+	<div class="a wH100" id="mainContainer" data-cWidth="0.9" data-cHeight="0.9">		
+		<div class="a wH100 mAlpha" id="exitScreen">
+			<img class="a sBGe" id="exitBackdrop" data-ratio="1" data-src="img/bg.JPG" src="" alt="" onload="page.imageLoader()" />
+			<div class="a sBGi" id="credits" data-ratio="0.8"></div>
+		</div>
+		<!--div class="a wH100 mAlpha" id="scapeBackdrop">
+			<img class="a sBGe" id="" data-ratio="1" data-src="img/bg.JPG" src="" alt="" onload="page.imageLoader()" />
+		</div-->
+		<div class="a mAlpha" id="scapeContainer" data-ratio="1">					
+			<img class="a i100" id="scapeNodeBackground" data-ratio="1" data-src="img/scapeNodeBackgroundWhite.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a realNode i100" data-src="img/radarArm.png" src="" alt="" onload="page.imageLoader()" />
+			<img class="a radar i100" id="radar" data-src="img/radar.png" src="" alt="" onload="page.imageLoader()" />
+		</div>
+		
+		<div class="a" id="exitButton">exit</div>
+		<div class="a mAlpha wH100" id="loadingScreen">
+			<div class="a mAlpha grad" id="logoContainer" data-ratio="3">
+				<img class="a sBGe" id="logoContainerBackground" data-ratio="1" data-src="img/logoBg.JPG" src="" alt="" onload="page.imageLoader()" />
+				<div class="a wH100" id="logo">vadar</div>
+				<div class="a" id="barWrapper" data-cHeight="0.1">
+					<div class="mAlpha loadBarContainer" id="audioLoadBarContainer">&nbsp;loading audio
+						<div class="a mWidthFast loadBar" id="audioLoadBar"></div>
+					</div>
+					<div class="mAlpha loadBarContainer" id="imageLoadBarContainer">&nbsp;loading images
+						<div class="a mWidthFast loadBar" id="imageLoadBar"></div>
+					</div>					
+					<div class="a mAlpha wH100" id="clickBar">click or touch anywhere to enter</div>
+				</div>
+			</div>
+		</div>
+		<div class="a mAlpha wH100" id="foutShield"></div>
+	</div>
+	<noscript>	
+		<!--place an image to show if JS is disabled here
+		<!--img id="noJSImage" src="img/*.png" alt="" /-->
+	</noscript>
+	
+	<script type="text/javascript">//request animation frame code
+		(function() {
+			var lastTime = 0,
+				vendors = ['ms', 'moz', 'webkit', 'o'],
+				x,
+				length,
+				currTime,
+				timeToCall;
+
+			for(x = 0, length = vendors.length; x < length && !window.requestAnimationFrame; ++x) {
+				window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+				window.cancelAnimationFrame = 
+				  window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+			}
+
+			if (!window.requestAnimationFrame)
+				window.requestAnimationFrame = function(callback, element) {
+					currTime = new Date().getTime();
+					timeToCall = Math.max(0, 16 - (currTime - lastTime));
+					lastTime = currTime + timeToCall;
+					return window.setTimeout(function() { callback(currTime + timeToCall); }, 
+					  timeToCall);
+				};
+
+			if (!window.cancelAnimationFrame)
+				window.cancelAnimationFrame = function(id) {
+					clearTimeout(id);
+				};
+		}());
+	</script>
+	
+	<script type="text/javascript">			
+	var node = {
+		loopOn : 1,
+		nodeXMLFile : null,
+		aNodes : [],
+		soundsLoadedCount : 0,
+		
+		Node : function (x, y, artist, track, source1, source2) {
+			this.x = x;
+			this.y = y;
+			this.wX = 0;
+			this.wY = 0;
+			//audio
+			this.player = null;
+			this.artist = artist;
+			this.track = track;
+			this.source1 = source1;
+			this.source2 = source2;
+		},	
+		
+		ended : function (event) {
+			event.target.removeEventListener("ended", node.ended, false);
+			if (node.loopOn === 1) {
+				event.target.play();				
+				event.target.addEventListener("ended", node.ended, false);
+			}
+		},
+		
+		play : function () {			
+			window.removeEventListener("mousedown", node.play, false);
+			window.removeEventListener("touchstart", node.play, false);
+			page.onUserClick();
+			for (a = 0; a < node.aNodes.length; a += 1) {					
+				node.aNodes[a].player.play();
+				node.aNodes[a].player.pause();
+				node.aNodes[a].player.currentTime = node.aNodes[a].player.duration - 0.001;
+				node.aNodes[a].player.play();					
+				node.aNodes[a].player.status = "playing";							
+			}
+		},
+		
+		loaded : function (event)	{						
+			event.target.status = "buffered";
+			event.target.removeEventListener("canplaythrough", node.loaded, false);
+			event.target.setAttribute("data-duration", event.target.duration);
+			event.target.addEventListener("ended", node.ended, false);
+			
+			node.soundsLoadedCount += 1;
+			document.getElementById("audioLoadBar").style.width = (node.soundsLoadedCount / node.nodeXMLFile.getElementsByTagName("node").length) * 100 + "%";
+			if (node.soundsLoadedCount === node.nodeXMLFile.getElementsByTagName("node").length) {
+				document.getElementById("audioLoadBarContainer").innerHTML = "&nbsp;all sounds buffered";
+				node.audioReady = 1;				
+				if (node.audioReady === 1 && page.imageReady === 1) {
+					page.readyToRock();
+				}						
+			}					
+		},
+		
+		aborted : function (event) {
+			event.target.removeEventListener("abort", node.aborted);
+			event.target.load();
+		},
+		
+		initialiseAudioPlayers : function () {
+			"use strict";
+			var a, source;
+			
+			for (a = 0; a < this.aNodes.length; a += 1) {
+				this.aNodes[a].player = document.createElement("audio");
+				this.aNodes[a].player.setAttribute("data-index", a);
+				
+				source = document.createElement('source');	
+				source.setAttribute('src', this.aNodes[a].source1);				
+				source.setAttribute('type', "audio/ogg");
+				this.aNodes[a].player.appendChild(source);											
+													
+				source = document.createElement('source');					
+				source.setAttribute('src', this.aNodes[a].source2);				
+				source.setAttribute('type', "audio/mp3");
+				this.aNodes[a].player.appendChild(source);	
+						
+				this.aNodes[a].player.volume = 0;
+				this.aNodes[a].player.addEventListener("abort", node.aborted);				
+				this.aNodes[a].player.addEventListener("canplaythrough", node.loaded);	
+			
+				this.aNodes[a].player.load();
+				this.aNodes[a].player.status = "buffering...";	
+			}
+		},
+		
+		createNodes : function() {
+			"use strict";
+			var nodeList, thisNode, x, y, artist, track, source1, source2;
+			nodeList = this.nodeXMLFile.getElementsByTagName("node");												
+			for (var n = 0; n < nodeList.length; n += 1) {	
+				thisNode = nodeList[n];
+				x = thisNode.getElementsByTagName("x")[0].childNodes[0].nodeValue;
+				y = thisNode.getElementsByTagName("y")[0].childNodes[0].nodeValue;				
+				artist = nodeList[n].childNodes[5].childNodes[0].nodeValue;	
+				track = nodeList[n].childNodes[7].childNodes[0].nodeValue;	
+				source1 = nodeList[n].childNodes[9].childNodes[0].nodeValue;	
+				source2 = nodeList[n].childNodes[11].childNodes[0].nodeValue;
+				// create node
+				this.aNodes[n] = new this.Node(x, y, artist, track, source1, source2);
+			};	
+		},					
+		
+		readNodeXML : function() {
+			"use strict";
+			var xmlhttp = new XMLHttpRequest();					 
+			xmlhttp.open("GET", "xml/nodeList25.xml", false);
+			xmlhttp.send();
+			node.nodeXMLFile = xmlhttp.responseXML; 
+		},
+		
+		initialiseNodes : function() {
+			node.readNodeXML();	
+			if(node.nodeXMLFile.getElementsByTagName("node").length === 0) {
+				document.getElementById("audioLoadBar").style.width = "100%";
+				document.getElementById("audioLoadBarContainer").innerHTML = "&nbsp;all sounds buffered";
+				node.audioReady = 1;
+				if (node.audioReady === 1 && page.imageReady === 1) {
+					page.readyToRock();
+				}
+			} else {
+				node.createNodes();
+				node.initialiseAudioPlayers();
+			}
+		}
+	};
+	</script>
+				
+	<script type="text/javascript">			
+		var engine = {
+			pulse : null,
+			runStop : -1,
+			move : 1,
+			rad : Math.floor(90) * Math.PI / 180,
+			vec : [-0.1396, -0.0873, -0.0523, 0, 0.0523, 0.0873, 0.1396],
+			velocity : 0,
+			xVec : 0.1,
+			yVec : -1,
+			globalVolume : 0.01,
+			piDivides180 : 180 / Math.PI,
+			
+			updatePosition : function () {
+				"use strict";													
+				var magXVec  = Math.abs(engine.xVec);
+				var magYVec  = Math.abs(engine.yVec);
+				var rnd = Math.floor(Math.random() * 7);
+				var inc = engine.vec[rnd];					
+				engine.rad += inc;
+				engine.xVec = (engine.xVec / magXVec) * Math.abs(Math.cos(engine.rad)) * engine.velocity;
+				engine.yVec = (engine.yVec / magYVec) * Math.abs(Math.sin(engine.rad)) * engine.velocity;
+				
+				page.x = page.x + engine.xVec;
+				page.y = page.y + engine.yVec;						
+				if (page.x < 0) {		
+					page.x = 0;
+					engine.xVec *= -1;
+				}		
+				else if (page.x > page.w) {	
+					page.x = page.w;
+					engine.xVec *= -1;
+				}
+				else if (page.y < 0) {					
+					page.y = 0;
+					engine.yVec *= -1;
+				}
+				else if (page.y > page.w) {	
+					page.y = page.w;
+					engine.yVec *= -1;
+				}
+				document.getElementById("radar").style.left = ( page.x - page.detectionRadius) + "px";
+				document.getElementById("radar").style.top = ( page.y - page.detectionRadius) + "px";	
+			},
+			
+			getDistance : function () {
+				"use strict";
+				//variables
+				var dX, dY, rX, rY, h, c, v = 0;
+				if (engine.globalVolume < 0.9) {
+					engine.globalVolume += 0.01;
+				}
+				document.getElementById("scapeContainer").style.display = "none";
+				for (c = 0; c < node.aNodes.length; c += 1) {					
+					dX = page.x - node.aNodes[c].wX - page.w20;
+					dY = page.y - node.aNodes[c].wY - page.w20;					
+					h = Math.sqrt((dX * dX) + (dY * dY));					
+					
+					//calculate volume
+					if (h < page.detectionRadius) {					
+						v = ((page.detectionRadius - h) / page.detectionRadius) * engine.globalVolume;
+						node.aNodes[c].player.volume = v;
+					}
+					else {
+						node.aNodes[c].player.volume = v = 0;							
+					}							
+					// calculate radar angle		
+					if (h != 0) {
+						rX = dX / h;
+						rY = dY / h;
+						var degree = Math.round(Math.atan2(rY, rX) * engine.piDivides180);
+						document.getElementsByClassName("realNode")[c].style.webkitTransform = 'rotate('+ degree +'deg)'; 	
+						document.getElementsByClassName("realNode")[c].style.msTransform = 'rotate('+ degree +'deg)'; 	
+						document.getElementsByClassName("realNode")[c].style.MozTransform = 'rotate('+ degree +'deg)'; 	
+						document.getElementsByClassName("realNode")[c].style.OTransform = 'rotate('+ degree +'deg)'; 	
+						document.getElementsByClassName("realNode")[c].style.transform = 'rotate('+ degree +'deg)'; 							
+					} 													
+				}	
+				document.getElementById("scapeContainer").style.display = "block";
+			},
+			
+			loop : function () {
+				"use strict";				
+				setTimeout(function() {				
+					engine.updatePosition();				
+					engine.getDistance();						
+					//scape.updateScape();
+					engine.pulse = requestAnimationFrame(engine.loop);
+				}, 50);
+			},
+
+			idleLoop: function () {
+				"use strict";
+				engine.pulse = requestAnimationFrame(engine.idleLoop);
+			},
+			
+			stopStart : function () {	
+				"use strict";
+				engine.runStop *= -1;
+				cancelAnimationFrame(engine.pulse);				
+				if (engine.runStop > 0) {						
+					engine.pulse = requestAnimationFrame(engine.loop);						
+				} else {			
+					engine.pulse = requestAnimationFrame(engine.idleLoop);	
+				}
+			}			
+		};
+	</script>
+	
+	<script type="text/javascript">
+		var page = {		
+			cWidth : 0,
+			cHeight : 0,
+			
+			x : 0,
+			y : 0,
+			w : 0,
+			w2 : 0,
+			w10 : 0,
+			w20 : 0,			
+			detectionRadius : 0,						
+			globalImageCount : document.getElementsByTagName("img").length,
+			imagesLoadedCount : 0,			
+			
+			exit : function () {
+				"use strict";
+				document.getElementById("exitScreen").style.opacity = 1;
+				document.getElementById("exitButton").removeEventListener("mousedown", page.exit, false);
+				document.getElementById("exitButton").style.opacity = 0;
+				document.getElementById("exitButton").style.cursor = "default";
+				for (a = 0; a < node.aNodes.length; a += 1) {
+					node.aNodes[a].player.pause();
+					node.aNodes[a].player.status = "paused";							
+				}
+				engine.stopStart();
+				document.getElementById("scapeContainer").style.opacity = 0;
+				document.getElementById("scapeBackdrop").style.opacity = 0;
+			},
+			
+			onUserClick : function () {
+				"use strict";
+				document.getElementById("loadingScreen").style.opacity = 0;
+				setTimeout( function () {	document.getElementById("loadingScreen").style.zIndex = -10; }, 1000);	
+				document.getElementById("exitButton").style.opacity = 0.8;
+				document.getElementById("exitButton").addEventListener("mousedown", page.exit, false);
+				engine.stopStart();
+			},
+														
+			readyToRock : function () {
+				"use strict";
+				document.getElementById("imageLoadBarContainer").style.opacity = 0;
+				document.getElementById("audioLoadBarContainer").style.opacity = 0;
+				document.getElementById("clickBar").style.opacity = 1;
+				page.resizeHandler();
+				window.addEventListener("mousedown", node.play, false);
+				window.addEventListener("touchstart", node.play, false);
+			},
+			
+			setSize : function (e, iO, xOFraction, yOFraction, xMax, yMax) {
+				"use strict";
+				var container, cW, cH, eW, eH, eRatio, cRatio;									
+				container = e.parentNode;			
+				cW = page.cWidth;
+				cH = page.cHeight;					
+				if (container.getAttribute("data-cHeight")) {
+					cH *= container.getAttribute("data-cHeight");
+				} 
+				else if (container.getAttribute("data-cWidth")) {
+					cW *= container.getAttribute("data-cWidth");
+				}
+				
+				cRatio = cW / cH;
+				eRatio = e.getAttribute("data-ratio");						
+				switch(iO) {
+					case 0:
+						if (cRatio < eRatio) {							
+							eW = cW;
+							eH = cW / eRatio;
+						} else {
+							eW = cH * eRatio;
+							eH = cH;						
+						}
+						break;							
+					case 1:												
+						if (cRatio < eRatio) {							
+							eW = cH * eRatio;
+							eH = cH;
+						} else {
+							eW = cW;
+							eH = cW / eRatio;							
+						}
+						break;
+				}					
+				if (xMax) {
+					if (eW > xMax) {
+						eW = xMax;
+					}
+				}
+				if (yMax) { 
+					if (eH > xMax) {
+						eH = xMax;
+					}
+				}
+				
+				e.style.left = (page.cWidth - eW) / xOFraction + "px";
+				e.style.top = (page.cHeight - eH) / yOFraction + "px";
+				e.style.width = eW + "px";
+				e.style.height = eH + "px";
+			},
+			
+			sizeHandler : function () {
+				"use strict";
+				var n = 0;		
+				page.setSize(document.getElementById("logoContainer"), 0, 2, 2.3);	// internal (0)
+				
+				var logoContainerHeight = parseInt(document.getElementById("logoContainer").style.height, 10);
+				var barWrapperHeight = logoContainerHeight * document.getElementById("barWrapper").getAttribute("data-cHeight");
+				
+				document.getElementById("logo").style.fontSize = document.getElementById("logoContainer").style.height;
+				document.getElementById("logo").style.lineHeight = logoContainerHeight * 0.86 + "px";
+				document.getElementById("imageLoadBarContainer").style.fontSize = barWrapperHeight / 4 + "px";
+				document.getElementById("imageLoadBarContainer").style.lineHeight = barWrapperHeight / 2 + "px";
+				document.getElementById("audioLoadBarContainer").style.fontSize = barWrapperHeight / 4 + "px";
+				document.getElementById("audioLoadBarContainer").style.lineHeight = barWrapperHeight / 2 + "px";
+				document.getElementById("clickBar").style.fontSize = document.getElementById("clickBar").style.lineHeight = barWrapperHeight + "px";
+				
+				page.setSize(document.getElementById("scapeContainer"), 0, 2, 2.3, 800, 800);
+				
+				for (n = 0; n < document.getElementsByClassName("sBGi").length; n += 1) {
+					page.setSize(document.getElementsByClassName("sBGi")[n], 0, 2, 2);
+				}
+				for (n = 0; n < document.getElementsByClassName("sBGe").length; n += 1) {
+					page.setSize(document.getElementsByClassName("sBGe")[n], 1, 2, 2);
+				}
+				
+				page.w = parseInt(document.getElementById("scapeContainer").style.width, 10);
+				page.w2 = page.w / 2;
+				page.w10 = page.w / 10;
+				page.w20 = page.w / 20;
+				
+				page.detectionRadius = page.w / 4;
+				
+				document.getElementById("radar").style.width = page.w2 + "px";
+				document.getElementById("radar").style.height = page.w2  + "px";
+				
+				for (n = 0; n < node.aNodes.length; n += 1) {
+					node.aNodes[n].wX = (node.aNodes[n].x * page.w) - page.w20;
+					node.aNodes[n].wY = (node.aNodes[n].y * page.w) - page.w20;		
+					document.getElementsByClassName("realNode")[n].style.width = page.w10 + "px";
+					document.getElementsByClassName("realNode")[n].style.height = page.w10 + "px";			
+					document.getElementsByClassName("realNode")[n].style.left = node.aNodes[n].wX + "px";
+					document.getElementsByClassName("realNode")[n].style.top = node.aNodes[n].wY + "px";					
+				}
+				var gap = 80;				
+				if (node.aNodes.length) {				
+					gap = node.aNodes[1].wX - node.aNodes[0].wX;
+				}
+				engine.velocity = gap / 80;
+			},
+			
+			resizeHandler : function () {
+				"use strict";	
+				page.cWidth = window.innerWidth;
+				if (window.innerHeight > 299) {						
+					page.cHeight = window.innerHeight;
+				} else {
+					page.cHeight = 300;
+				}	
+				page.sizeHandler();						
+			},									
+					
+			imageLoader : function () {				
+				"use strict";
+				page.imagesLoadedCount += 1;							
+				document.getElementById("imageLoadBar").style.width = (page.imagesLoadedCount / page.globalImageCount) * 100 + "%";
+				if (page.imagesLoadedCount === document.getElementsByTagName("img").length) {
+					document.getElementById("imageLoadBarContainer").innerHTML = "&nbsp;all images loaded";
+					page.imageReady = 1;
+					if ((node.audioReady === 1) && (page.imageReady === 1)) {
+						page.readyToRock();
+					}
+				}
+			},
+						
+			imageHandler : function () {
+				"use strict";
+				var i, images = document.getElementsByTagName("img");
+				for (var i = 0; i < images.length; i += 1) {						
+					images[i].src = images[i].getAttribute("data-src");
+				}
+				if (images.length === 0) {
+					document.getElementById("imageLoadBar").style.width = "100%";
+					document.getElementById("imageLoadBarContainer").innerHTML = "&nbsp;all images loaded";
+					page.imageReady = 1;
+					if (node.audioReady === 1 && page.imageReady === 1) {
+						page.readyToRock();
+					}
+				}				
+			},
+			
+			loadHandler : function () {
+				"use strict";
+				// only if javascript is enabled, show the page contents
+				document.getElementById("mainContainer").style.display = "block";
+				page.resizeHandler();	
+				page.x = page.w / 2;
+				page.y = page.w / 2;
+				setTimeout( function () { document.getElementById("foutShield").style.opacity = 0; }, 1000);
+				page.imageHandler();
+				node.initialiseNodes();						
+			}
+		};
+		
+		window.addEventListener("resize", page.resizeHandler, false);
+		window.addEventListener("load", page.loadHandler, false);
+	</script>			
+</body>
+</html>	
+	
